@@ -7,6 +7,7 @@ import uuid
 app = FastAPI(
     title="API de Gestión de Tareas",
     description="API REST simple para gestionar tareas con operaciones CRUD completas",
+    version="1.0.0"
 )
 
 # Modelos Pydantic

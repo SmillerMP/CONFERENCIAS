@@ -2,6 +2,8 @@
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
+#include <signal.h>
+#include <unistd.h>
 #include <microhttpd.h>
 #include <json-c/json.h>
 #include <uuid/uuid.h>
@@ -23,6 +25,12 @@ typedef struct {
 // Base de datos en memoria
 Tarea tareas_db[MAX_TAREAS];
 int total_tareas = 0;
+static volatile sig_atomic_t servidor_activo = 1;
+
+static void manejar_senal(int senal) {
+    (void)senal;
+    servidor_activo = 0;
+}
 
 // Generar UUID
 void generar_uuid(char *buffer) {
@@ -319,6 +327,9 @@ static enum MHD_Result answer_to_connection(void *cls, struct MHD_Connection *co
     static int dummy;
     
     if (&dummy != *con_cls) {
+        char ts[30];
+        obtener_timestamp(ts);
+        printf("[%s] %s %s\n", ts, method, url);
         *con_cls = &dummy;
         return MHD_YES;
     }
@@ -370,6 +381,11 @@ static enum MHD_Result answer_to_connection(void *cls, struct MHD_Connection *co
 
 int main() {
     struct MHD_Daemon *daemon;
+
+    setvbuf(stdout, NULL, _IONBF, 0);
+
+    signal(SIGINT, manejar_senal);
+    signal(SIGTERM, manejar_senal);
     
     // Inicializar base de datos
     memset(tareas_db, 0, sizeof(tareas_db));
@@ -384,9 +400,11 @@ int main() {
     
     printf("Servidor escuchando en http://0.0.0.0:%d\n", PORT);
     printf("API de Gestión de Tareas v1.0.0\n");
-    printf("Presiona ENTER para detener el servidor...\n");
-    
-    getchar();
+    printf("Presiona Ctrl+C para detener el servidor...\n");
+
+    while (servidor_activo) {
+        sleep(1);
+    }
     
     MHD_stop_daemon(daemon);
     return 0;
