@@ -16,7 +16,7 @@ COPY main.c .
 RUN gcc -o api main.c -lmicrohttpd -ljson-c -luuid
 
 # Exponer el puerto
-EXPOSE 8000
+EXPOSE 80
 
 # Ejecutar la aplicación
 CMD ["./api"]
