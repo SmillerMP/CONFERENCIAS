@@ -23,26 +23,26 @@ En esta sesion realizaremos una demostracion practica de los servicios de AWS, i
 
 Estos son los comandos principales utilizados durante el despliegue y publicacion de imagenes:
 
-1. docker build
+1. `docker build`
 
 Construye una imagen a partir de un Dockerfile.
 
 Ejemplo:
-docker build -t usuario/mi-app:latest .
+`docker build -t usuario/mi-app:latest .`
 
-2. docker run
+2. `docker run`
 
 Ejecuta un contenedor a partir de una imagen.
 
 Ejemplo:
-docker run --rm -p 8000:8000 usuario/mi-app:latest
+`docker run --rm -p 8000:8000 usuario/mi-app:latest`
 
-3. docker push
+3. `docker push`
 
 Publica una imagen en un registro remoto (por ejemplo Docker Hub).
 
 Ejemplo:
-docker push usuario/mi-app:latest
+`docker push usuario/mi-app:latest`
 
 ## Que es Docker Hub y para que sirve
 
@@ -52,7 +52,7 @@ Sirve para:
 
 - Compartir imagenes entre equipos.
 - Versionar imagenes por tags (por ejemplo latest, v1.0.0).
-- Descargar imagenes desde cualquier servidor o instancia EC2 usando docker pull.
+- Descargar imagenes desde cualquier servidor o instancia EC2 usando `docker pull`.
 - Centralizar el flujo de CI/CD para construir y publicar contenedores.
 
 ## Nota de Migracion (Cambio de IP y Build Frontend)
@@ -61,20 +61,20 @@ Cuando migres la aplicacion a otro servidor o instancia (por ejemplo otra EC2), 
 
 Archivo a modificar:
 
-Frontend/tasks/src/config.js
+`Frontend/tasks/src/config.js`
 
 Valor de referencia:
-export const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000'
+`export const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000'`
 
 En produccion, reemplaza localhost o la IP anterior por la nueva IP publica o dominio del backend.
 
 Despues de cambiar la configuracion, vuelve a compilar el frontend con uno de estos comandos:
 
-npm run build
+`npm run build`
 
 o
 
-pnpm run build
+`pnpm run build`
 
 
 </br>
