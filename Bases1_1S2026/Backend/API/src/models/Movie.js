@@ -1,4 +1,5 @@
 const db = require('../db');
+const oracledb = require('oracledb');
 
 class Movie {
   static async create(title, description, categoryId, releaseDate, director, duration) {
@@ -17,7 +18,7 @@ class Movie {
       releaseDate: releaseDate ? new Date(releaseDate) : null,
       director: director,
       duration: duration,
-      newId: { dir: 3, type: 2, maxSize: 40 }
+      newId: { dir: oracledb.BIND_OUT, type: oracledb.NUMBER }
     };
 
     try {
@@ -176,7 +177,7 @@ class Movie {
     `;
     
     try {
-      const result = await db.executeQuery(query, [`%${keyword}%`]);
+      const result = await db.executeQuery(query, { keyword: `%${keyword}%` });
       return result.rows || [];
     } catch (error) {
       throw new Error(`Error al buscar películas: ${error.message}`);

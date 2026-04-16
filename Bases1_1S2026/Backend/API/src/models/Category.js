@@ -1,4 +1,5 @@
 const db = require('../db');
+const oracledb = require('oracledb');
 
 class Category {
   static async create(name, description = '') {
@@ -11,7 +12,7 @@ class Category {
     let bindVars = {
       name: name,
       description: description,
-      newId: { dir: 3, type: 2, maxSize: 40 }
+      newId: { dir: oracledb.BIND_OUT, type: oracledb.NUMBER }
     };
 
     try {
