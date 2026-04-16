@@ -9,7 +9,7 @@ services:
     ports:
       - "${DB_PORT:-1521}:1521"
     volumes:
-      - ./DB/init-oracle.sql:/container-entrypoint-initdb.d/init-oracle.sql
+      - ./Backend/DB/init-oracle.sql:/container-entrypoint-initdb.d/init-oracle.sql
       - oracle_data:/opt/oracle/oradata
     networks:
       - movies-network
@@ -22,7 +22,7 @@ services:
 
   movies-api:
     build:
-      context: ./API
+      context: ./Backend/API
       dockerfile: Dockerfile
     command: ["pnpm", "run", "dev"]
     container_name: movies-api
@@ -36,7 +36,7 @@ services:
     ports:
       - "${API_PORT:-3001}:3001"
     volumes:
-      - ./API/src:/app/src
+      - ./Backend/API/src:/app/src
     networks:
       - movies-network
     restart: on-failure
