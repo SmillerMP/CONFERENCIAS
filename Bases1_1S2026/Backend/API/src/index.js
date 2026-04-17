@@ -2,9 +2,11 @@ require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const morgan = require('morgan');
+const swaggerUi = require('swagger-ui-express');
 
 const moviesRouter = require('./routes/movies');
 const categoriesRouter = require('./routes/categories');
+const swaggerSpec = require('./docs/openapi');
 const db = require('./db');
 
 const app = express();
@@ -15,6 +17,7 @@ app.use(cors());
 app.use(morgan('tiny'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use('/api/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 // Rutas
 app.use('/api/movies', moviesRouter);
@@ -42,6 +45,7 @@ async function startServer() {
     app.listen(PORT, () => {
       console.log(`API ejecutándose en puerto ${PORT}`);
       console.log(`http://localhost:${PORT}/api/health`);
+      console.log(`  DOCS   http://localhost:${PORT}/api/docs`);
       console.log(`  POST   http://localhost:${PORT}/api/categories`);
       console.log(`  GET    http://localhost:${PORT}/api/categories`);
       console.log(`  POST   http://localhost:${PORT}/api/movies`);
