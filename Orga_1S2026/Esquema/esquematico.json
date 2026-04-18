@@ -1,0 +1,53 @@
+{
+  "version": 1,
+  "author": "Anonymous maker",
+  "editor": "wokwi",
+  "parts": [
+    { "type": "wokwi-arduino-uno", "id": "uno", "top": -95.4, "left": -163.8, "attrs": {} },
+    {
+      "type": "wokwi-lcd1602",
+      "id": "lcd1",
+      "top": 121.6,
+      "left": 255.2,
+      "attrs": { "pins": "i2c" }
+    },
+    {
+      "type": "board-bmp180",
+      "id": "bmp1",
+      "top": 39.56,
+      "left": 138.66,
+      "rotate": 90,
+      "attrs": {}
+    },
+    {
+      "type": "wokwi-buzzer",
+      "id": "bz1",
+      "top": -98.7,
+      "left": 282.9,
+      "rotate": 90,
+      "attrs": { "volume": "0.1" }
+    },
+    {
+      "type": "wokwi-pushbutton",
+      "id": "btn1",
+      "top": -32.2,
+      "left": 259.2,
+      "attrs": { "color": "yellow", "xray": "1" }
+    }
+  ],
+  "connections": [
+    [ "uno:A5", "lcd1:SCL", "violet", [ "v0" ] ],
+    [ "uno:A5", "bmp1:SCL", "violet", [ "v86.3", "h90.7" ] ],
+    [ "uno:A4", "lcd1:SDA", "blue", [ "v0" ] ],
+    [ "uno:A4", "bmp1:SDA", "blue", [ "v76.7", "h71.4" ] ],
+    [ "uno:GND.3", "lcd1:GND", "black", [ "v105.5", "h215.2", "v-48" ] ],
+    [ "uno:5V", "lcd1:VCC", "red", [ "v115.1", "h243.8", "v-48.1" ] ],
+    [ "uno:5V", "bmp1:VCC", "red", [ "v115.1", "h186.2" ] ],
+    [ "uno:GND.3", "bmp1:GND", "black", [ "v105.5", "h167.2" ] ],
+    [ "uno:GND.1", "bz1:1", "black", [ "v-38.4", "h278.7", "v57.6" ] ],
+    [ "uno:GND.1", "btn1:1.l", "black", [ "v-38.4", "h278.7", "v105.6" ] ],
+    [ "uno:8", "bz1:2", "#8f4814", [ "v-28.8", "h202", "v58" ] ],
+    [ "uno:7", "btn1:2.l", "gold", [ "v-19.2", "h176.4", "v105.6" ] ]
+  ],
+  "dependencies": {}
+}
